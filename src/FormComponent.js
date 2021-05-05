@@ -25,7 +25,7 @@ function FromApp(props) {
       mm = "0" + mm;
     }
     let newDate = `${dd}/${mm}/${date.getFullYear()}`;
-    data.created_date = newDate;
+    data.created_date = props.data.created_date;;
     data.modified_date = newDate;
     data.createdby = `System`;
     data.modifiedby = `System`;
@@ -45,6 +45,15 @@ function FromApp(props) {
 
   return (
     <Form validated onSubmit={handleSubmit(onSubmit)}>
+      <Form.Group controlId="formGridCourseId">
+        <Form.Label>Course ID</Form.Label>
+        <Form.Control
+          required
+          defaultValue={props.data.courseId}
+          readOnly
+          {...register("courseId")}
+        />
+      </Form.Group>
       <Form.Group controlId="formGridCourseName">
         <Form.Label>Course Name</Form.Label>
         <Form.Control
@@ -70,7 +79,6 @@ function FromApp(props) {
       </Form.Group>
 
       <Form.Row>
-
         <Form.Group as={Col} controlId="formGridCourseClass">
           <Form.Label>Class</Form.Label>
           <Form.Control
@@ -81,19 +89,14 @@ function FromApp(props) {
             <option value="LKG">LKG</option>
             <option value="1">1</option>
             <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
           </Form.Control>
           <Form.Control.Feedback type="invalid">
             Please select a option
           </Form.Control.Feedback>
         </Form.Group>
       </Form.Row>
-      <Button variant="warning" id="addBtn" >ADD</Button>{"   "}
-      <Button variant="success" type="submit" >
-        Submit
-      </Button>
+      
+      <Button variant="primary" type="submit" >Submit</Button>{" "}
     </Form>
   );
 }

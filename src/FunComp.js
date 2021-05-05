@@ -16,16 +16,11 @@ function FunComp() {
     fetchData();
   }, []);
 
-  async function handleDeleteClick(id) {
-    const response = await NewComp.deleteData(id);
-    fetchData();
-  }
 
-  //  const details =
   return (
     <>
       <HeaderComponent />
-      <Table responsive striped bordered hover variant="dark">
+      <Table responsive striped bordered hover variant="white">
         <thead>
           <tr>
             <th>#</th>

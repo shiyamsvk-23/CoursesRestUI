@@ -3,11 +3,27 @@ import TableComponent from "./TableComponent";
 import { Button, Form } from "react-bootstrap";
 import NewComp from "./NewComp";
 import DeleteModalComponent from "./DeleteModalComponent";
+import ModifyComponent from "./ModifyComponent";
 
 
 function FetchDataComponent() {
   const [data, setData] = useState([]);
   const [checkData, setCheckData] = useState([]);
+
+  let removeByAttr = function (arr, attr, value) {
+    var i = arr.length;
+    while (i--) {
+      if (
+        arr[i] &&
+        arr[i].hasOwnProperty(attr) &&
+        arguments.length > 2 &&
+        arr[i][attr] === value
+      ) {
+        arr.splice(i, 1);
+      }
+    }
+    return arr;
+  };
 
   async function fetchData() {
     const result = await NewComp.getData();
@@ -28,13 +44,18 @@ function FetchDataComponent() {
     const response = await NewComp.deleteMultipleData(checkData);
     fetchData();
   }
-  function handleCheckboxChange(e, arr) {
-    let temp = checkData;
-    temp.push(arr);
-    setCheckData(temp);
+ function handleCheckboxChange(e, arr) {
+    console.log("event targe=", e.target.checked);
+    if (e.target.checked) {
+      let temp = checkData;
+      temp.push(arr);
+      setCheckData(temp);
+    } else {
+      removeByAttr(checkData, "CourseID", arr.courseId);
+    }
+
     console.log("Hey it's data", checkData);
-    console.log("Hey its me the simple object=", arr);
-    console.log("its change checkbox =", e);
+   
   }
 
   const details = data.map((arr) => (
@@ -56,7 +77,8 @@ function FetchDataComponent() {
       <td>{arr.created_date}</td>
       <td>{arr.modified_date}</td>
       <td>
-        <Button variant="warning">Modify</Button>{" "}
+        {/* <Button variant="warning">Modify</Button>{" "} */}
+        <ModifyComponent fetchdata={fetchData} data={arr} />
         <DeleteModalComponent
           deletedata={handleDeleteClick}
           courseId={arr.courseId}
